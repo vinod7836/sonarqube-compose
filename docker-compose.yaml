@@ -1,0 +1,30 @@
+version: "3"
+services:
+  sonarqube:
+    image: sonarqube:lts-enterprise   
+    container_name: sonarqube
+    depends_on:
+      - db
+    environment:
+      SONAR_JDBC_URL: jdbc:postgresql://db:5432/sonarqubedb
+      SONAR_JDBC_USERNAME: admin
+      SONAR_JDBC_PASSWORD: admin@123
+    expose:
+      - 80
+    ports:
+      - "80:9000"
+    networks:
+      - sonarqube
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin@123      
+      POSTGRES_DB: sonarqubedb
+    container_name: sonordb
+    mem_limit: 512m
+    networks:
+      - sonarqube
+networks:
+  sonarqube:
+   
